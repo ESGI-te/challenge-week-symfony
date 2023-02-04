@@ -11,6 +11,7 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use const App\Constants\ROLES;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -25,8 +26,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Role::class)]
-    private array $roles = [];
+    #[ORM\Column]
+    private array $roles = [ROLES['USER']];
 
     /**
      * @var string The hashed password

@@ -27,7 +27,6 @@ class RegisterService
         $user->setPassword($hash);
         $user->setCreatedAt($date);
         $user->setToken($token);
-        $user->setRoles(['ROLE_USER']);
         $this->em->persist($user);
         $this->em->flush();
         $this->sendEmailConfirmation($user, $token);
