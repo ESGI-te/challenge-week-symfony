@@ -73,6 +73,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Listening::class, orphanRemoval: true)]
     private Collection $listenings;
 
+    #[ORM\Column(length: 50)]
+    private ?string $username = null;
+
     public function __construct()
     {
         $this->musics = new ArrayCollection();
@@ -392,6 +395,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $listening->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
 
         return $this;
     }
