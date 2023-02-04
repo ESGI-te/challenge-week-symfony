@@ -23,7 +23,7 @@ class MailService
         try {
             $this->apiInstance->sendTransacEmail($email);
         } catch (Exception $e) {
-            echo 'Exception when calling EmailCampaignsApi->createEmailCampaign: ', $e->getMessage(), PHP_EOL;
+            echo $e->getMessage(), PHP_EOL;
         }
     }
 }
