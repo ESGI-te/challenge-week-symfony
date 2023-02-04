@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
@@ -23,7 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column]
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Role::class)]
     private array $roles = [];
 
     /**
@@ -52,6 +54,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $token = null;
+
+    #[ORM\OneToOne(inversedBy: 'user_id', cascade: ['persist', 'remove'])]
+    private ?ModeratorRequest $moderatorRequest = null;
+
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Music::class, orphanRemoval: true)]
+    private Collection $musics;
+
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Playlist::class, orphanRemoval: true)]
+    private Collection $playlists;
+
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Litigation::class, orphanRemoval: true)]
+    private Collection $litigations;
+
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Favorite::class, orphanRemoval: true)]
+    private Collection $favorites;
+
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Listening::class, orphanRemoval: true)]
+    private Collection $listenings;
+
+    public function __construct()
+    {
+        $this->musics = new ArrayCollection();
+        $this->playlists = new ArrayCollection();
+        $this->litigations = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
+        $this->listenings = new ArrayCollection();
+    }
 
     public function getId(): string
     {
@@ -201,6 +230,168 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getModeratorRequest(): ?ModeratorRequest
+    {
+        return $this->moderatorRequest;
+    }
+
+    public function setModeratorRequest(?ModeratorRequest $moderatorRequest): self
+    {
+        $this->moderatorRequest = $moderatorRequest;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Music>
+     */
+    public function getMusics(): Collection
+    {
+        return $this->musics;
+    }
+
+    public function addMusic(Music $music): self
+    {
+        if (!$this->musics->contains($music)) {
+            $this->musics->add($music);
+            $music->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMusic(Music $music): self
+    {
+        if ($this->musics->removeElement($music)) {
+            // set the owning side to null (unless already changed)
+            if ($music->getUserId() === $this) {
+                $music->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Playlist>
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->playlists;
+    }
+
+    public function addPlaylist(Playlist $playlist): self
+    {
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists->add($playlist);
+            $playlist->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(Playlist $playlist): self
+    {
+        if ($this->playlists->removeElement($playlist)) {
+            // set the owning side to null (unless already changed)
+            if ($playlist->getUserId() === $this) {
+                $playlist->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Litigation>
+     */
+    public function getLitigations(): Collection
+    {
+        return $this->litigations;
+    }
+
+    public function addLitigation(Litigation $litigation): self
+    {
+        if (!$this->litigations->contains($litigation)) {
+            $this->litigations->add($litigation);
+            $litigation->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLitigation(Litigation $litigation): self
+    {
+        if ($this->litigations->removeElement($litigation)) {
+            // set the owning side to null (unless already changed)
+            if ($litigation->getUserId() === $this) {
+                $litigation->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favorite>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+            $favorite->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->removeElement($favorite)) {
+            // set the owning side to null (unless already changed)
+            if ($favorite->getUserId() === $this) {
+                $favorite->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Listening>
+     */
+    public function getListenings(): Collection
+    {
+        return $this->listenings;
+    }
+
+    public function addListening(Listening $listening): self
+    {
+        if (!$this->listenings->contains($listening)) {
+            $this->listenings->add($listening);
+            $listening->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListening(Listening $listening): self
+    {
+        if ($this->listenings->removeElement($listening)) {
+            // set the owning side to null (unless already changed)
+            if ($listening->getUserId() === $this) {
+                $listening->setUserId(null);
+            }
+        }
 
         return $this;
     }
