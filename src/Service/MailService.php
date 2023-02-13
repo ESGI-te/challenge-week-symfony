@@ -9,8 +9,8 @@ use \SendinBlue\Client\Model\SendSmtpEmail;
 
 class MailService
 {
-    public function __construct() {
-        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
+    public function __construct($sendinblueApiKey) {
+        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $sendinblueApiKey);
         $this->apiInstance = new TransactionalEmailsApi(
             new Client(),
             $config

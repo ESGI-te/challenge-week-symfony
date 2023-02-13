@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MusicController!{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_row(form.name)}}
+    {{ form_row(form.audio)}}
+    {{ form_row(form.background_img)}}
+    <button type="submit">Ajouter ma musique</button>
+    {{ form_end(form)}}
+{% endblock %}

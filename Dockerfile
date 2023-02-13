@@ -31,6 +31,7 @@ RUN apk add --no-cache \
 		git \
         linux-headers \
         npm \
+        ffmpeg \
 	;
 
 RUN set -eux; \

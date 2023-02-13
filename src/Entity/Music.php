@@ -33,11 +33,11 @@ class Music
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $background_img = null;
 
-    #[ORM\ManyToOne(inversedBy: 'musics')]
+    #[ORM\ManyToOne(inversedBy: 'music')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user_id = null;
 
-    #[ORM\ManyToMany(targetEntity: Playlist::class, mappedBy: 'musics')]
+    #[ORM\ManyToMany(targetEntity: Playlist::class, mappedBy: 'music')]
     private Collection $playlists;
 
     #[ORM\OneToMany(mappedBy: 'music', targetEntity: Comment::class)]
