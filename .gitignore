@@ -10,4 +10,7 @@
 /vendor/
 /migrations
 .idea/
-/upload/*/**
+/upload/image/*/**
+/upload/music/*
+upload/.DS_Store
+.DS_Store
