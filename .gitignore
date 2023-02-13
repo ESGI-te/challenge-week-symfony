@@ -4,10 +4,10 @@
 .env
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/public/image/music
-/public/image/user
+/public/image/music/*/**
+/public/image/user/*/**
 /var/
 /vendor/
 /migrations
 .idea/
-/upload
+/upload/*/**
