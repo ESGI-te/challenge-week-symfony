@@ -5,14 +5,14 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Twig\Environment;
 
 class RegisterService
 {
-    public function __construct(UserPasswordHasherInterface $passwordHasher, MailService $mailService, EntityManager $em, Environment $twig, UserRepository $userRepository) {
+    public function __construct(UserPasswordHasherInterface $passwordHasher, MailService $mailService, EntityManagerInterface $em, Environment $twig, UserRepository $userRepository) {
         $this->passwordHasher = $passwordHasher;
         $this->mailService = $mailService;
         $this->em = $em;
